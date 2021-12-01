@@ -1,4 +1,6 @@
 import java.util.*;
+
+import javax.lang.model.element.Element;
 public class Heap {
     public final Vertex[] Heap;
     private int size;
@@ -74,12 +76,19 @@ public class Heap {
 
     /*TODO Find the vertex in the heap using the Vertex's index and decrease the key and heapify the elements. */
     public void decreaseKey(Vertex v, int newCost){
-
+        System.out.println(this.Heap[v.index].cost);
+        System.out.println(newCost);
+        if(v != null){
+            this.Heap[v.index].cost = newCost;
+        }
+        System.out.println(this.Heap[v.index].cost);
+        minHeapify(v.index);
     }
 
     /*TODO Find the smallest cost unknown Vertex in the Heap. */
     public Vertex findSmallestUnknown(){
-
+        for (Vertex element : this.Heap) 
+            if (element != null && !element.known) return element;
         return null;
     }
 

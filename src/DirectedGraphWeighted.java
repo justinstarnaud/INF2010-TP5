@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class DirectedGraphWeighted {
@@ -7,12 +8,17 @@ public class DirectedGraphWeighted {
 
     /* TODO Initialize de DirectedGraph */
     public void initialize(int numNodes) {
-        //
+        this.neighbours = new HashSet[numNodes];
+        for(int i=0; i<numNodes; i++) neighbours[i] = new HashSet<Vertex>();
+        this.edgeQuantity = 0;
+        this.vertexCapacity = numNodes;
     }
 
     /*TODO Create an edge between the vertices - Veuillez vous referez aux notes de cours */
     public void connect(int v1, Vertex vertex){
-        //
+        if(v1>=0 && v1 <= vertexCapacity && !neighbours[v1].contains(vertex)){
+            neighbours[v1].add(vertex);
+        }
     }
 
     /* TODO Print all the edges connecting vertices*/
@@ -20,12 +26,18 @@ public class DirectedGraphWeighted {
         StringBuilder o = new StringBuilder();
         String ln = System.getProperty("line.separator");
         o.append(vertexCapacity).append(ln).append(edgeQuantity).append(ln);
+        for (HashSet<Vertex> hashSet : neighbours) {
+            for (Vertex vertex : hashSet) {
+                o.append(vertex.cost);
+            }
+            o.append(ln);
+        }
         return o.toString();
     }
 
     /* TODO Return a HashMap of adjacent edges / vertices */
     public HashSet<Vertex> adj(int v) {
-        return new HashSet<>();
+        return new HashSet<>(this.neighbours[v]);
     }
 
     public DirectedGraphWeighted(int numNodes){
