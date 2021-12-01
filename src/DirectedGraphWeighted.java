@@ -65,16 +65,19 @@ public class DirectedGraphWeighted {
             Vertex smallestAdjacent = null;
             for(Vertex w: adj(v.index)){
                 /* TODO Decrease the cost of the vertex in the Heap using decreaseKey if conditions are met */
-                if(smallestAdjacent == null || w.cost < smallestAdjacent.cost)
-                    smallestAdjacent = w;
+//                if(smallestAdjacent == null || w.cost < smallestAdjacent.cost)
+//                    smallestAdjacent = w;k
+                vertices.decreaseKey(v, w.cost );
             }
-            if(smallestAdjacent != null)
-                vertices.decreaseKey(v, smallestAdjacent.cost );
+//            if(smallestAdjacent != null)
+//                vertices.decreaseKey(v, smallestAdjacent.cost );
         }
 
         /*TODO Add up the total cost of the elements in the Heap */
-        while(!vertices.isEmpty){
 
+        while(!vertices.isEmpty){
+            System.out.println(totalCost);
+            totalCost += vertices.poll().cost;
         }
         return totalCost;
     }
