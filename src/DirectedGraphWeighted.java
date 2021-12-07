@@ -60,13 +60,9 @@ public class DirectedGraphWeighted {
                         adding = false;
                         break;
                     }
-
-
                 }
-
                 if(adding)
                     vertices.add(new Vertex(Integer.MAX_VALUE, areteVoisine.index));
-
                 adding = true;
             }
         }
@@ -74,17 +70,17 @@ public class DirectedGraphWeighted {
             Vertex v = vertices.findSmallestUnknown();
             if(v == null) break;
             v.known = true;
+
+            // Nb minimal : 0 dans le cas ou il ne se rend a aucun voisin
+            // Nb maximal : n - 1 (nb total de noeuds) dans le cas ou tous les autres noeuds sont son voisin
             for(Vertex w: adj(v.index)){
-                /* Decrease the cost of the vertex in the Heap using decreaseKey if conditions are met */
-                //int pathCost = v.path != null ? v.path.cost : 0;
-                vertices.decreaseKey(w, w.cost + v.cost );
-                // Nb d'iteration
-                // modification plus couteuse
+                // Dans le pire cas on modifie un sommet n-1 (n : nb total de noeuds) fois
+                //
+                vertices.decreaseKey(w, v.cost + w.cost );
             }
         }
 
-        /*Add up the total cost of the elements in the Heap */
-        // nb d'iteration
+        // Puisque le chemin le plus court
         while(!vertices.isEmpty){
             totalCost += vertices.poll().cost;
             System.out.println(totalCost);
