@@ -6,7 +6,7 @@ public class DirectedGraphWeighted {
     public int vertexCapacity;
     public int edgeQuantity;
 
-    /* TODO Initialize de DirectedGraph */
+    /* Initialize de DirectedGraph */
     public void initialize(int numNodes) {
         this.neighbours = new HashSet[numNodes];
         for(int i=0; i<numNodes; i++) neighbours[i] = new HashSet<Vertex>();
@@ -14,14 +14,14 @@ public class DirectedGraphWeighted {
         this.vertexCapacity = numNodes;
     }
 
-    /*TODO Create an edge between the vertices - Veuillez vous referez aux notes de cours */
+    /*Create an edge between the vertices - Veuillez vous referez aux notes de cours */
     public void connect(int v1, Vertex vertex){
         if(v1>=0 && v1 <= vertexCapacity && !neighbours[v1].contains(vertex)){
             neighbours[v1].add(vertex);
         }
     }
 
-    /* TODO Print all the edges connecting vertices*/
+    /* Print all the edges connecting vertices*/
     public String toString(){
         StringBuilder o = new StringBuilder();
         String ln = System.getProperty("line.separator");
@@ -35,7 +35,7 @@ public class DirectedGraphWeighted {
         return o.toString();
     }
 
-    /* TODO Return a HashMap of adjacent edges / vertices */
+    /* Return a HashMap of adjacent edges / vertices */
     public HashSet<Vertex> adj(int v) {
         return new HashSet<>(this.neighbours[v]);
     }
@@ -52,21 +52,32 @@ public class DirectedGraphWeighted {
         /* NE PAS MODIFIER CE CODE */
 
         /* Add all of the vertices to the Heap start at Index 1. The default cost should be the largest possible value for an integer */
+        boolean adding = true;
         for(HashSet<Vertex> v : neighbours){
-            for(Vertex vertice : v){
-                vertice.cost = Integer.MAX_VALUE;
-                vertices.add(vertice);
+            for(Vertex areteVoisine : v){
+                for (Vertex elem: vertices.Heap){
+                    if(elem != null && elem.index == areteVoisine.index){
+                        adding = false;
+                        break;
+                    }
+
+
+                }
+
+                if(adding)
+                    vertices.add(new Vertex(Integer.MAX_VALUE, areteVoisine.index));
+
+                adding = true;
             }
         }
         while(true){
             Vertex v = vertices.findSmallestUnknown();
-            System.out.println(v.cost);
-            System.out.println(v.index);
             if(v == null) break;
             v.known = true;
             for(Vertex w: adj(v.index)){
                 /* Decrease the cost of the vertex in the Heap using decreaseKey if conditions are met */
-                vertices.decreaseKey(v, w.cost );
+                //int pathCost = v.path != null ? v.path.cost : 0;
+                vertices.decreaseKey(w, w.cost + v.cost );
                 // Nb d'iteration
                 // modification plus couteuse
             }
@@ -75,8 +86,8 @@ public class DirectedGraphWeighted {
         /*Add up the total cost of the elements in the Heap */
         // nb d'iteration
         while(!vertices.isEmpty){
-            int value = vertices.poll().cost;
-            totalCost += value;
+            totalCost += vertices.poll().cost;
+            System.out.println(totalCost);
         }
         return totalCost;
     }

@@ -22,18 +22,19 @@ public class Interview {
             Cell curr = heap.poll();
             int x = curr.xPos, y = curr.yPos, cost = curr.cost;
 
-            if (false /*TODO Condition si on arrive à la fin de la matrice */)
+            if (x==m-1 && y ==n-1)
                 return cost;
 
 
             for (int i = 0; i < 4; i++) {
                 int[] dir = DIRECTIONS[i];
                 int newX = x + dir[1], newY = y + dir[0];
-                if (false/*TODO Condition qui assure qu'on est toujours dans les bornes de la matrice */) continue;
-
-                int newCost = -1/*TODO Calculer le nouveau cout selon le deplacement*/;
+                if (newX < 0 || newX >= m || newY < 0 || newY >= n) continue;
+                int direction = grid[x][y].cost;
+                int newCost = cost + (i + 1 == direction ? 0:1);
                 if (costs[newY][newX].cost > newCost) {
-                    /*TODO Mettre le nouveau cout au bonne emplacement dans la matrice & l'ajouter au heap.*/
+                    costs[newY][newX].cost = newCost;
+                    heap.offer(new Cell(newX,newY,newCost));
                 }
             }
         }
