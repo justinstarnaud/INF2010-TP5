@@ -51,7 +51,7 @@ public class DirectedGraphWeighted {
         Heap vertices = new Heap(vertexCapacity + 1);
         /* NE PAS MODIFIER CE CODE */
 
-        /* TODO Add all of the vertices to the Heap start at Index 1. The default cost should be the largest possible value for an integer */
+        /* Add all of the vertices to the Heap start at Index 1. The default cost should be the largest possible value for an integer */
         for(HashSet<Vertex> v : neighbours){
             for(Vertex vertice : v){
                 vertice.cost = Integer.MAX_VALUE;
@@ -60,24 +60,23 @@ public class DirectedGraphWeighted {
         }
         while(true){
             Vertex v = vertices.findSmallestUnknown();
+            System.out.println(v.cost);
+            System.out.println(v.index);
             if(v == null) break;
             v.known = true;
-            Vertex smallestAdjacent = null;
             for(Vertex w: adj(v.index)){
-                /* TODO Decrease the cost of the vertex in the Heap using decreaseKey if conditions are met */
-//                if(smallestAdjacent == null || w.cost < smallestAdjacent.cost)
-//                    smallestAdjacent = w;k
+                /* Decrease the cost of the vertex in the Heap using decreaseKey if conditions are met */
                 vertices.decreaseKey(v, w.cost );
+                // Nb d'iteration
+                // modification plus couteuse
             }
-//            if(smallestAdjacent != null)
-//                vertices.decreaseKey(v, smallestAdjacent.cost );
         }
 
-        /*TODO Add up the total cost of the elements in the Heap */
-
+        /*Add up the total cost of the elements in the Heap */
+        // nb d'iteration
         while(!vertices.isEmpty){
-            System.out.println(totalCost);
-            totalCost += vertices.poll().cost;
+            int value = vertices.poll().cost;
+            totalCost += value;
         }
         return totalCost;
     }
