@@ -77,6 +77,7 @@ public class Heap {
     public void decreaseKey(Vertex v, int newCost){
         for(int i = 1; i < this.Heap.length; i++){
             if (this.Heap[i].index == v.index ) {
+                // Condition pour modification du coût du sommet
                 if(this.Heap[i].cost > newCost)
                     this.Heap[i].cost = newCost;
                 minHeapify(i);

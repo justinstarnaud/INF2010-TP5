@@ -71,19 +71,27 @@ public class DirectedGraphWeighted {
             if(v == null) break;
             v.known = true;
 
-            // Nb minimal : 0 dans le cas ou il ne se rend a aucun voisin
-            // Nb maximal : n - 1 (nb total de noeuds) dans le cas ou tous les autres noeuds sont son voisin
+            // Nb minimal : 0 dans le cas où le noeud ne se rend a aucun voisin
+            // Nb maximal : n - 1 (n : nb total de noeuds). C'est dans le cas ou tous les autres noeuds sont voisin au noeud en question
             for(Vertex w: adj(v.index)){
-                // Dans le pire cas on modifie un sommet n-1 (n : nb total de noeuds) fois
-                //
-                vertices.decreaseKey(w, v.cost + w.cost );
+                // Dans le pire cas on modifie un sommet autant de fois qu'il y a d'itérations (n -1)
+                // C'est dans le cas où tous les autres noeuds du graphe sont son voisin et qu'il sont ordonnées de façon décroissante de poids
+
+                // Condition implémentée dans decreaseKey
+                vertices.decreaseKey(w, v.cost + w.cost);
             }
         }
 
-        // Puisque le chemin le plus court
+
+        vertices.poll(); // on enlève le premier neoud qui a nécéssairement un poids de 0
+
+        // Puisque le chemin le plus court doit passer par tous les autres sommets la boucle effectuera n-1 (n:nb de noeuds) iterations
+        // Cette réponse est basée sur notre implémentation
+        // a. 9 itérations
+        // b. 99 itérations
+        // c. 999 itérations
         while(!vertices.isEmpty){
             totalCost += vertices.poll().cost;
-            System.out.println(totalCost);
         }
         return totalCost;
     }
