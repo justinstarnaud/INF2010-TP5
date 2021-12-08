@@ -15,7 +15,7 @@ public class UndirectedGraph implements Graph {
 
     @Override
     public void connect(int v1, int v2){
-        /*TODO Implement necessary conditions for connect and justify each condition */
+        /*Implement necessary conditions for connect and justify each condition */
         if(!neighbours[v1].contains(v2) && !neighbours[v2].contains(v1)){
             neighbours[v1].add(v2);
             neighbours[v2].add(v1);
